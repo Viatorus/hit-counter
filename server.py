@@ -55,6 +55,21 @@ def home_route():
         top_url_amount=config.NUM_TOP_URLS
     )
 
+@app.route("/short", endpoint="short_route")
+@utils.get_and_validate_url
+def short_route(url):
+    from urllib import request, parse
+
+    req = request.Request('https://git.io/create', method="POST")
+    req.add_header('Content-Type', 'application/x-www-form-urlencoded')
+    data = {
+        "url": "https://" + url
+    }
+    data = parse.urlencode(data).encode()
+    r = request.urlopen(req, data=data)
+    content = r.read().decode('utf8')
+    return make_response("https://git.io/" + content, 200)
+
 
 @app.route("/count", endpoint="count_raw_route")
 @utils.get_and_validate_url
