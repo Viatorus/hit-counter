@@ -1,3 +1,4 @@
+import urllib
 from flask import Flask, request, make_response, render_template
 
 import config
@@ -56,17 +57,15 @@ def home_route():
     )
 
 @app.route("/short", endpoint="short_route")
-@utils.get_and_validate_url
-def short_route(url):
-    from urllib import request, parse
-
-    req = request.Request('https://git.io/create', method="POST")
+def short_route():
+    url = request.args.get('url')
+    req = urllib.request.Request('https://git.io/create', method="POST")
     req.add_header('Content-Type', 'application/x-www-form-urlencoded')
     data = {
-        "url": "https://" + url
+        "url": url
     }
-    data = parse.urlencode(data).encode()
-    r = request.urlopen(req, data=data)
+    data = urllib.parse.urlencode(data).encode()
+    r = urllib.request.urlopen(req, data=data)
     content = r.read().decode('utf8')
     return make_response("https://git.io/" + content, 200)
 
