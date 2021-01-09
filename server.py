@@ -56,9 +56,9 @@ def home_route():
         top_url_amount=config.NUM_TOP_URLS
     )
 
-@app.route("/short", endpoint="short_route")
+@app.route("/short", methods=['POST'], endpoint="short_route")
 def short_route():
-    url = request.args.get('url')
+    url = request.data.decode('utf8')
     req = urllib.request.Request('https://git.io/create', method="POST")
     req.add_header('Content-Type', 'application/x-www-form-urlencoded')
     data = {
@@ -132,6 +132,6 @@ def add_header(r):
 
 if __name__ == '__main__':
     ip = '0.0.0.0'
-    port = 8080
+    port = 8081
     print("Site starting on http://" + ip + ":" + str(port))
-    app.run(host=ip, port=port, ssl_context=('cert.pem', 'key.pem'))
+    app.run(host=ip, port=port)#, ssl_context=('cert.pem', 'key.pem'))
