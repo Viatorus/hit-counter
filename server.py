@@ -46,15 +46,7 @@ def make_svg_response(count, url, cookie_required):
 
 @app.route("/")
 def home_route():
-    """ Home + tool to create (nocount/count + url in url) """
-    connection = db_connection.get_connection()
-    return render_template(
-        'index.html',
-        top_domains=db_connection.get_top_sites(connection, config.NUM_TOP_DOMAINS),
-        top_urls=db_connection.get_top_urls(connection, config.NUM_TOP_URLS),
-        top_domain_amount=config.NUM_TOP_DOMAINS,
-        top_url_amount=config.NUM_TOP_URLS
-    )
+    return "", 404
 
 @app.route("/short", methods=['POST'], endpoint="short_route")
 def short_route():
